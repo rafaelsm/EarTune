@@ -1,10 +1,11 @@
 package br.com.rads.eartune;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 
-public class MainActivity extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+
+public class MainActivity extends SherlockActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -14,7 +15,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getSherlock().getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 }
