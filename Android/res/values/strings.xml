@@ -4,5 +4,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">EarTune</string>
+    
+    <!-- Musical Notes -->
+    <string name="note_do">DO</string>
+    <string name="note_re">RE</string>
+    <string name="note_mi">MI</string>
+    <string name="note_fa">FA</string>
+    <string name="note_sol">SOL</string>
+    <string name="note_la">LA</string>
+    <string name="note_si">SI</string>
 
 </resources>
