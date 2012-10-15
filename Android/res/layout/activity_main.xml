@@ -5,6 +5,14 @@
     android:orientation="vertical"
     android:gravity="center" >
 
+    <TextView 
+        android:id="@+id/textview_prototype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notas"
+        android:textSize="24dp"
+        />
+    
     <Button
         android:id="@+id/button_do"
         android:layout_width="wrap_content"
@@ -53,5 +61,12 @@
         android:layout_height="wrap_content"
         android:text="@string/note_si"
         tools:context=".MainActivity" />
+    
+    <Button 
+        android:id="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/play"
+        />
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package br.com.rads.eartune;
 
 import android.app.Service;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 	private Button solButton;
 	private Button laButton;
 	private Button siButton;
+	private Button playButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 		solButton = (Button) findViewById(R.id.button_sol);
 		laButton = (Button) findViewById(R.id.button_la);
 		siButton = (Button) findViewById(R.id.button_si);
+		playButton = (Button) findViewById(R.id.play);
 		
 		doButton.setOnClickListener(this);
 		reButton.setOnClickListener(this);
@@ -65,6 +68,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 		solButton.setOnClickListener(this);
 		laButton.setOnClickListener(this);
 		siButton.setOnClickListener(this);
+		playButton.setOnClickListener(this);
 		
 	}
 
@@ -83,6 +87,11 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 		float volume = actualVolume / maxVolume;
 		
 		switch (view.getId()) {
+		
+		case R.id.play:
+			startActivity( new Intent(this, GameActivity.class));
+			break;
+		
 		case R.id.button_do:
 			if (doID != 0)
 				soundPool.play(doID, volume, volume, 1, 0, 1);

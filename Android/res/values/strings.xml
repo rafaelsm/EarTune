@@ -3,7 +3,7 @@
     <string name="app_name">EarTune</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">EarTune</string>
+    <string name="title_activity_main">EarTune - Prototipo</string>
     
     <!-- Musical Notes -->
     <string name="note_do">DO</string>
@@ -13,5 +13,10 @@
     <string name="note_sol">SOL</string>
     <string name="note_la">LA</string>
     <string name="note_si">SI</string>
+    
+    <string name="notas">Notas</string>
+    <string name="play">Jogar</string>
+    <string name="hear">Escutar</string>
+    <string name="ok">OK</string>
 
 </resources>
