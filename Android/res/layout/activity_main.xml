@@ -1,72 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/teste"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center" >
 
-    <TextView 
-        android:id="@+id/textview_prototype"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/notas"
-        android:textSize="24dp"
-        />
-    
-    <Button
-        android:id="@+id/button_do"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_do"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_re"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_re"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_mi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_mi"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_fa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_fa"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_sol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_sol"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_la"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_la"
-        tools:context=".MainActivity" />
-    
-    <Button
-        android:id="@+id/button_si"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/note_si"
-        tools:context=".MainActivity" />
-    
-    <Button 
-        android:id="@+id/play"
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/play"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

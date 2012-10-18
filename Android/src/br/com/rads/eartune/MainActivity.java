@@ -1,74 +1,59 @@
 package br.com.rads.eartune;
 
-import android.app.Service;
-import android.content.Intent;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import br.com.rads.eartune.fragments.NotesFragment;
+import br.com.rads.eartune.fragments.PageAdapter;
+import br.com.rads.eartune.fragments.TrainingFragment;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
-public class MainActivity extends SherlockActivity implements OnClickListener {
+public class MainActivity extends SherlockFragmentActivity {
 
-	private SoundPool soundPool;
-	private int doID;
-	private int reID;
-	private int miID;
-	private int faID;
-	private int solID;
-	private int laID;
-	private int siID;
+	private ActionBar actionBar;
+	private ViewPager viewPager;
 	
-//	private int[] notes = new int[]{doID,reID,miID,faID,solID,laID,siID};
 	
-	//views
-	private Button doButton;
-	private Button reButton;
-	private Button miButton;
-	private Button faButton;
-	private Button solButton;
-	private Button laButton;
-	private Button siButton;
-	private Button playButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
-		soundPool = new SoundPool(7, AudioManager.STREAM_MUSIC, 0);
+		NotesFragment notesFragment = new NotesFragment();
+		TrainingFragment trainingFragment = new TrainingFragment();
 		
-		doID = soundPool.load(this, R.raw.note_do, 1);
-		reID = soundPool.load(this, R.raw.note_re, 1);
-		miID = soundPool.load(this, R.raw.note_mi, 1);
-		faID = soundPool.load(this, R.raw.note_fa, 1);
-		solID = soundPool.load(this, R.raw.note_sol, 1);
-		laID = soundPool.load(this, R.raw.note_la, 1);
-		siID = soundPool.load(this, R.raw.note_si, 1);
+		PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
+		adapter.addFragment(notesFragment);
+		adapter.addFragment(trainingFragment);
 		
-		doButton = (Button) findViewById(R.id.button_do);
-		reButton = (Button) findViewById(R.id.button_re);
-		miButton = (Button) findViewById(R.id.button_mi);
-		faButton = (Button) findViewById(R.id.button_fa);
-		solButton = (Button) findViewById(R.id.button_sol);
-		laButton = (Button) findViewById(R.id.button_la);
-		siButton = (Button) findViewById(R.id.button_si);
-		playButton = (Button) findViewById(R.id.play);
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(adapter);
+		viewPager.setOffscreenPageLimit(adapter.getCount());
+		viewPager.setCurrentItem(0);
+		viewPager.setOnPageChangeListener( new OnPageChangeListener() {
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+			
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			
+			public void onPageScrollStateChanged(int arg0) {}
+		});
 		
-		doButton.setOnClickListener(this);
-		reButton.setOnClickListener(this);
-		miButton.setOnClickListener(this);
-		faButton.setOnClickListener(this);
-		solButton.setOnClickListener(this);
-		laButton.setOnClickListener(this);
-		siButton.setOnClickListener(this);
-		playButton.setOnClickListener(this);
+		createTab("Notas Musicais");
+		createTab("Treino");
+		
+		
 		
 	}
 
@@ -78,54 +63,24 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 		return true;
 	}
 
-	public void onClick(View view) {
-
-		AudioManager audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
+	
+	
+	private void createTab(String title){
+		Tab tab = getSupportActionBar().newTab();
+		tab.setText(title);
+		tab.setTabListener( new TabListener() {
+			
+			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			}
+			
+			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+				viewPager.setCurrentItem(tab.getPosition(), true);
+			}
+			
+			public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			}
+		});
 		
-		float actualVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-		float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		float volume = actualVolume / maxVolume;
-		
-		switch (view.getId()) {
-		
-		case R.id.play:
-			startActivity( new Intent(this, GameActivity.class));
-			break;
-		
-		case R.id.button_do:
-			if (doID != 0)
-				soundPool.play(doID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_re:
-			if (reID != 0)
-				soundPool.play(reID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_mi:
-			if (miID != 0)
-				soundPool.play(miID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_fa:
-			if (faID != 0)
-				soundPool.play(faID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_sol:
-			if (solID != 0)
-				soundPool.play(solID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_la:
-			if (laID != 0)
-				soundPool.play(laID, volume, volume, 1, 0, 1);
-			break;
-
-		case R.id.button_si:
-			if (siID != 0)
-				soundPool.play(siID, volume, volume, 1, 0, 1);
-			break;
-		}
+		getSupportActionBar().addTab(tab);
 	}
 }

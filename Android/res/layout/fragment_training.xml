@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/traning_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    
+     <TextView
+        android:id="@+id/difficult_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dificuldade:"
+        android:layout_below="@id/traning_info_text"
+        android:layout_margin="10dp"
+        />
+    
+    <Spinner 
+        android:id="@+id/difficult_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/difficult_text"
+        android:layout_alignBaseline="@id/difficult_text"/>
+    
+</RelativeLayout>
