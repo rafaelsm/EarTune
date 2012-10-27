@@ -18,5 +18,16 @@
     <string name="play">Jogar</string>
     <string name="hear">Escutar</string>
     <string name="ok">OK</string>
-
+    
+    <!-- Fragment Training -->
+    <string name="difficult">Dificuldade:</string>
+	<string name="record">Record:</string>
+	<string name="name">Name name name</string>
+	<string name="miss">Erros:</string>
+	<string name="hit">Percentual %:</string>
+    <string name="score">Score</string>
+    <string name="time">Tempo</string>
+	<string name="start_training">Treinar</string>
+	<string name="ear">Ouvido</string>
+    
 </resources>

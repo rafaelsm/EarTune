@@ -1,16 +1,22 @@
 package br.com.rads.eartune.fragments;
 
-import br.com.rads.eartune.R;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import br.com.rads.eartune.GameActivity;
+import br.com.rads.eartune.R;
 
 public class TrainingFragment extends Fragment {
 
+	private Button trainingButton;
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -24,8 +30,18 @@ public class TrainingFragment extends Fragment {
 		
 		Spinner spinner = (Spinner) view.findViewById(R.id.difficult_spinner);
 		
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.difficult_array, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.difficult_array, android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		
+		trainingButton = (Button) view.findViewById(R.id.traning_button);
+		trainingButton.setOnClickListener( new OnClickListener() {
+			
+			public void onClick(View v) {
+				
+				startActivity( new Intent(getActivity(), GameActivity.class));
+				
+			}
+		});
 		
 		return view;
 	}
