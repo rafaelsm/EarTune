@@ -38,21 +38,33 @@
         android:textSize="24sp"
         />
     
+    <LinearLayout 
+        android:id="@+id/layout_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score_text"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+        
+        
+        <include 
+            layout="@layout/score_header"/>
+    
     <fragment
         android:name="br.com.rads.eartune.fragments.ScoreListFragment"
         android:id="@+id/score_list"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_below="@id/score_text"
-        android:layout_centerHorizontal="true"
         android:animateLayoutChanges="true" />
+    
+    </LinearLayout>
     
     <TextView 
         android:id="@+id/percent_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hit"
-        android:layout_below="@id/score_list"
+        android:layout_below="@id/layout_score"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"/>
     

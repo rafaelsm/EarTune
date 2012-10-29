@@ -1,27 +1,46 @@
 package br.com.rads.eartune.fragments;
 
-import br.com.rads.eartune.R;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import br.com.rads.eartune.model.Score;
+import br.com.rads.eartune.util.ScoreAdapter;
 
 public class ScoreListFragment extends ListFragment{
 
 	private String[] errors = {"12","33","2","41","7","89"};
 	private String[] corrects = {"122","133","12","141","17","189"};
-	private String[] playTime = {"12:12:01","33:12:01","2:12:01","41:12:01","7:12:01","89:12:01"};
+//	private String[] playTime = {"12:12:01","33:12:01","2:12:01","41:12:01","7:12:01","89:12:01"};
 	
+	private List<Score> score;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, playTime);
+		loadDummyScore();
+		ScoreAdapter adapter = new ScoreAdapter(getActivity(), android.R.layout.simple_list_item_1, score);
+		
 		setListAdapter(adapter);
+	}
+
+	private void loadDummyScore() {
+
+		score = new ArrayList<Score>();
+		
+		for (int i = 0; i < errors.length; i++) {
+			
+			Score s = new Score();
+			s.setErrors(errors[i]);
+			s.setHits(corrects[i]);
+			s.setPlaytime( new Date());
+			
+			score.add(s);
+		}
+		
 	}
 	
 }

@@ -2,27 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+     android:gravity="center"
+     android:background="#F7CCCCCC">
 
     <TextView 
         android:id="@+id/hits_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Acertos"/>
+        android:text="Acertos"
+        android:gravity="center"/>
     
     <TextView 
         android:id="@+id/errors_text"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Erros"/>
+        android:text="Erros"
+        android:gravity="center"/>
     
     <TextView 
         android:id="@+id/time_text"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Tempo"/>
+        android:text="Tempo"
+        android:gravity="center"/>
 
 </LinearLayout>
