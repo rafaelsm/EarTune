@@ -37,8 +37,8 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
 		
 		Score score = this.scores.get(position);
 		
-		textHits.setText(score.getHits());
-		textErrors.setText(score.getErrors());
+		textHits.setText(""+score.getHits());
+		textErrors.setText(""+score.getErrors());
 		playTime.setText(DateHelper.dateToString(score.getPlaytime()));
 		
 		return row;

@@ -11,8 +11,8 @@ import br.com.rads.eartune.util.ScoreAdapter;
 
 public class ScoreListFragment extends ListFragment{
 
-	private String[] errors = {"12","33","2","41","7","89"};
-	private String[] corrects = {"122","133","12","141","17","189"};
+	private int[] errors = {12,33,2,4,7,89};
+	private int[] corrects = {12,133,12,14,17,189};
 //	private String[] playTime = {"12:12:01","33:12:01","2:12:01","41:12:01","7:12:01","89:12:01"};
 	
 	private List<Score> score;

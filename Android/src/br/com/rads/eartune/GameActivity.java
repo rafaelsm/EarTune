@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.LayoutParams;
@@ -26,17 +27,20 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 	private static final String TAG = "GAME";
 
 	private Score score;
+	private int hits;
+	private int errors;
 
 	private int[] musicalNotes = { R.raw.note_do, R.raw.note_re, R.raw.note_mi,
 			R.raw.note_fa, R.raw.note_sol, R.raw.note_la, R.raw.note_si };
 
 	private SoundPool soundPool;
 	private int soundID;
-	private int noteID;
 
-	private Button hearButton;
+	private ImageButton hearButton;
 	private Button chooseButton;
 	private RadioGroup rg;
+	private TextView hitText;
+	private TextView errorText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,10 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 		Log.d(TAG, "Dificuldade: " + difficult);
 
 		rg = (RadioGroup) findViewById(R.id.options);
-		hearButton = (Button) findViewById(R.id.hear_button);
-		chooseButton = (Button) findViewById(R.id.button_choose);
+		hearButton = (ImageButton) findViewById(R.id.hear_button);
+		chooseButton = (Button) findViewById(R.id.button_choose); 
+		hitText = (TextView) findViewById(R.id.hit_text);
+		errorText = (TextView) findViewById(R.id.error_text);
 
 		hearButton.setOnClickListener(this);
 		chooseButton.setOnClickListener(this);
@@ -151,17 +157,23 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 
 		case R.id.button_choose:
 
-			Log.d("SOUND", "id: " + rg.getCheckedRadioButtonId());
-			Log.d("CHOOSE", "id: " + noteID);
-
 			int radioButtonID = rg.getCheckedRadioButtonId();
 			View radioButton = rg.findViewById(radioButtonID);
 			
-			if (radioButton.getTag() == "right")
+			if (radioButton.getTag() == "right"){
+				
 				Toast.makeText(this, "Parabens champs, voce acertou",
 						Toast.LENGTH_LONG).show();
-			else
+				hits++;
+				score.setHits(hits);
+				hitText.setText("Acertos: " + hits);
+			}
+			else{
 				Toast.makeText(this, "Errou!", Toast.LENGTH_LONG).show();
+				errors++;
+				score.setErrors(errors);
+				errorText.setText("Erros: " + errors);
+			}
 
 			break;
 		}

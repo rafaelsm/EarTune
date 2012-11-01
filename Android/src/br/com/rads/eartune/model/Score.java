@@ -4,27 +4,27 @@ import java.util.Date;
 
 public class Score {
 	
-	private String hits;
-	private String errors;
+	private int hits;
+	private int errors;
 	private Date playtime;
 	
 	public Score() {
 		super();
 	}
 
-	public String getHits() {
+	public int getHits() {
 		return hits;
 	}
 
-	public void setHits(String hits) {
+	public void setHits(int hits) {
 		this.hits = hits;
 	}
 
-	public String getErrors() {
+	public int getErrors() {
 		return errors;
 	}
 
-	public void setErrors(String errors) {
+	public void setErrors(int errors) {
 		this.errors = errors;
 	}
 
