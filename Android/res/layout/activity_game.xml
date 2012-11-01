@@ -2,12 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/difficult_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="#F7CCCCCC"/>
 
     <Button
         android:id="@+id/hear_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hear" 
+        android:layout_below="@id/difficult_text"
         android:layout_marginTop="20dp"/>
 
     <RadioGroup
@@ -16,9 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/hear_button"
         android:layout_centerInParent="true"
-        android:showDividers="end" >
+        android:orientation="horizontal">
 
-        <RadioButton
+        <!-- <RadioButton
             android:id="@+id/button_do"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +68,7 @@
             android:id="@+id/button_si"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/note_si" />
+            android:text="@string/note_si" /> -->
     </RadioGroup>
 
     <Button 

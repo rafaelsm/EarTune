@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Acertos"
+        android:text="@string/hits"
         android:gravity="center"/>
     
     <TextView 
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Erros"
+        android:text="@string/misses"
         android:gravity="center"/>
     
     <TextView 
@@ -27,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Tempo"
+        android:text="@string/time"
         android:gravity="center"/>
 
 </LinearLayout>

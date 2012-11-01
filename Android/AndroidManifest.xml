@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
             android:name=".GameActivity"
             android:screenOrientation="sensorPortrait" />
     </application>
