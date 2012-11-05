@@ -83,7 +83,7 @@ public class GameFragment extends Fragment {
 		parentActivity.setSoundPool(new SoundPool(7, AudioManager.STREAM_MUSIC,
 				0));
 		soundID = parentActivity.getSoundPool().load(getActivity(),
-				musicalNotes[correctNote], 1);
+				notes[correctNote], 1);
 		parentActivity.setSoundID(soundID);
 
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -142,8 +142,9 @@ public class GameFragment extends Fragment {
 
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 
+		int range = new Random().nextInt(4);
 		for (int i = 0; i < numberOfNotes; i++) {
-			numbers.add(i);
+			numbers.add(i+range);
 		}
 
 		Log.d(TAG, "Numbers before shuffle: " + numbers);
