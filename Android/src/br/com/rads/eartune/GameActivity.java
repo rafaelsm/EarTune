@@ -1,28 +1,25 @@
 package br.com.rads.eartune;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
 import android.app.Service;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
+import br.com.rads.eartune.fragments.GameFragment;
 import br.com.rads.eartune.model.Score;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class GameActivity extends SherlockActivity implements OnClickListener {
+public class GameActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	private static final String TAG = "GAME";
 
@@ -30,18 +27,16 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 	private int hits;
 	private int errors;
 
-	private int[] musicalNotes = { R.raw.note_do, R.raw.note_re, R.raw.note_mi,
-			R.raw.note_fa, R.raw.note_sol, R.raw.note_la, R.raw.note_si };
-
 	private SoundPool soundPool;
 	private int soundID;
 
 	private ImageButton hearButton;
 	private Button chooseButton;
-	private RadioGroup rg;
 	private TextView hitText;
 	private TextView errorText;
-
+	
+	private GameFragment gameFrag;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,94 +46,23 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 
 		TextView difficultText = (TextView) findViewById(R.id.difficult_text);
 		difficultText.setText(difficult);
-
+		
 		Log.d(TAG, "Dificuldade: " + difficult);
 
-		rg = (RadioGroup) findViewById(R.id.options);
 		hearButton = (ImageButton) findViewById(R.id.hear_button);
 		chooseButton = (Button) findViewById(R.id.button_choose); 
 		hitText = (TextView) findViewById(R.id.hit_text);
 		errorText = (TextView) findViewById(R.id.error_text);
+		gameFrag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.options);
 
 		hearButton.setOnClickListener(this);
 		chooseButton.setOnClickListener(this);
-
-		setupForDifficult(difficult);
-
+		
+		gameFrag.setDifficult(difficult);
+		
 		score = new Score();
 	}
 
-	private void setupForDifficult(String difficult) {
-
-		if (difficult.equals("Easy")) {
-			createAnswers(3);
-		} else if (difficult.equals("Medium")) {
-			createAnswers(5);
-		} else {
-			createAnswers(7);
-		}
-
-	}
-
-	private void createAnswers(int i) {
-
-		int[] notes = notesToUse(i);
-		int correctNote = new Random().nextInt(i);
-		
-		soundPool = new SoundPool(7, AudioManager.STREAM_MUSIC, 0);
-		soundID = soundPool.load(this, musicalNotes[correctNote], 1);
-
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-
-		for (int j = 0; j < i; j++) {
-
-			RadioButton radioButton = new RadioButton(this);
-			
-			if (j == correctNote) {
-				radioButton.setTag("right");
-			}else{
-				radioButton.setTag("wrong");
-			}
-
-			String noteName = null;
-			switch (notes[j]) {
-			case R.raw.note_do:
-				noteName = "DO";
-				break;
-
-			case R.raw.note_re:
-				noteName = "RE";
-				break;
-
-			case R.raw.note_mi:
-				noteName = "MI";
-				break;
-
-			case R.raw.note_fa:
-				noteName = "FA";
-				break;
-
-			case R.raw.note_sol:
-				noteName = "SOL";
-				break;
-
-			case R.raw.note_la:
-				noteName = "LA";
-				break;
-
-			case R.raw.note_si:
-				noteName = "SI";
-				break;
-			}
-
-			radioButton.setText(noteName);
-			rg.addView(radioButton, params);
-
-		}
-
-		rg.invalidate();
-	}
 
 	public void onClick(View view) {
 
@@ -157,8 +81,16 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 
 		case R.id.button_choose:
 
+			RadioGroup rg = gameFrag.getRg();
+			
 			int radioButtonID = rg.getCheckedRadioButtonId();
 			View radioButton = rg.findViewById(radioButtonID);
+			
+			Log.d("RADIO", "id: " + radioButtonID);
+			
+			if (radioButtonID == 0) {
+				return;
+			}
 			
 			if (radioButton.getTag() == "right"){
 				
@@ -167,6 +99,9 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 				hits++;
 				score.setHits(hits);
 				hitText.setText("Acertos: " + hits);
+				
+				gameFrag.newQuestion();
+				
 			}
 			else{
 				Toast.makeText(this, "Errou!", Toast.LENGTH_LONG).show();
@@ -179,25 +114,17 @@ public class GameActivity extends SherlockActivity implements OnClickListener {
 		}
 
 	}
+	
+	public SoundPool getSoundPool() {
+		return soundPool;
+	}
 
-	private int[] notesToUse(int numberOfNotes) {
+	public void setSoundPool(SoundPool soundPool) {
+		this.soundPool = soundPool;
+	}
 
-		ArrayList<Integer> numbers = new ArrayList<Integer>();
-
-		for (int i = 0; i < numberOfNotes; i++) {
-			numbers.add(i);
-		}
-
-		Collections.shuffle(numbers);
-
-		int[] notes = new int[numberOfNotes];
-
-		for (int i = 0; i < notes.length; i++) {
-			notes[i] = musicalNotes[numbers.get(i)];
-		}
-
-		return notes;
-
+	public void setSoundID(int soundID){
+		this.soundID = soundID;
 	}
 
 }

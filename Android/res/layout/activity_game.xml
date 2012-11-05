@@ -43,15 +43,15 @@
         android:background="@android:color/transparent"
         android:src="@drawable/speaker_stencil" />
     
-    <RadioGroup
+    <fragment
+        android:name="br.com.rads.eartune.fragments.GameFragment"
         android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/hear_button"
         android:layout_centerVertical="true"
         android:padding="20dp"
-        android:orientation="vertical">
-    </RadioGroup>
+        android:orientation="vertical"/>
 
     <Button 
         android:id="@+id/button_choose"
