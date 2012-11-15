@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import br.com.rads.eartune.constants.Difficult;
 import br.com.rads.eartune.fragments.GameFragment;
 import br.com.rads.eartune.model.Score;
 import br.com.rads.eartune.util.DataManager;
@@ -30,6 +31,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 	private Button chooseButton;
 	private TextView hitText;
 	private TextView errorText;
+	private TextView chancesText;
 
 	// iv
 	private Score score;
@@ -43,6 +45,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 	private long endTime;
 
 	private String difficult;
+	private int chancesForDifficult;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 		chooseButton = (Button) findViewById(R.id.button_choose);
 		hitText = (TextView) findViewById(R.id.hit_text);
 		errorText = (TextView) findViewById(R.id.error_text);
+		chancesText = (TextView) findViewById(R.id.chances);
 		gameFrag = (GameFragment) getSupportFragmentManager().findFragmentById(
 				R.id.options);
 
@@ -70,6 +74,22 @@ public class GameActivity extends SherlockFragmentActivity implements
 
 		score = new Score(difficult);
 		startTime = new Date().getTime();
+
+		setChances();
+	}
+
+	private void setChances() {
+
+		if (difficult.equals(Difficult.EASY)) {
+			chancesForDifficult = 7;
+		} else if (difficult.equals(Difficult.MEDIUM)) {
+			chancesForDifficult = 5;
+		} else {
+			chancesForDifficult = 3;
+		}
+
+		chancesText.setText("Chances: " + chancesForDifficult);
+		
 	}
 
 	public void onClick(View view) {
@@ -84,7 +104,12 @@ public class GameActivity extends SherlockFragmentActivity implements
 
 		switch (view.getId()) {
 		case R.id.hear_button:
-			soundPool.play(soundID, volume, volume, 1, 0, 1);
+			if (chancesForDifficult > 0){
+				soundPool.play(soundID, volume, volume, 1, 0, 1);
+				
+				chancesForDifficult--;
+				chancesText.setText("Chances: " + chancesForDifficult);
+			}
 			break;
 
 		case R.id.button_choose:
@@ -96,7 +121,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 
 			Log.d("RADIO", "id: " + radioButtonID);
 
-			if (radioButtonID <= 0 ) {
+			if (radioButtonID <= 0) {
 				return;
 			}
 
@@ -109,6 +134,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 				hitText.setText("Acertos: " + hits);
 
 				gameFrag.newQuestion();
+				setChances();
 
 			} else {
 				Toast.makeText(this, "Errou!", Toast.LENGTH_LONG).show();

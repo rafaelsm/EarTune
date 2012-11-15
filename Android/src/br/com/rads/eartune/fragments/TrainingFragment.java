@@ -1,5 +1,6 @@
 package br.com.rads.eartune.fragments;
 
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Intent;
@@ -35,7 +36,9 @@ public class TrainingFragment extends Fragment implements
 	private List<Score> scoreMedium;
 	private List<Score> scoreHard;
 	private List<Score> currentScore;
+	private String currentDifficult;
 	private ScoreAdapter listAdapter;
+	
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -46,8 +49,15 @@ public class TrainingFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		
+		
 		DataManager dataManager = new DataManager(getActivity());
-		scoreEasy = dataManager.loadScore(Difficult.EASY);
+		currentScore = dataManager.loadScore(Difficult.EASY);
+		currentDifficult = Difficult.EASY;
+		
+		Collections.reverse(currentScore);
+		
+		
 		
 		View view = inflater.inflate(R.layout.fragment_training, container,
 				false);
@@ -57,7 +67,7 @@ public class TrainingFragment extends Fragment implements
 		noScoreText = (TextView) view.findViewById(R.id.textview_no_score);
 
 		listAdapter = new ScoreAdapter(getActivity(),
-				R.layout.score_row, scoreEasy);
+				R.layout.score_row, currentScore);
 		list.setAdapter(listAdapter);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -90,9 +100,7 @@ public class TrainingFragment extends Fragment implements
 		scoreMedium = dataManager.loadScore(Difficult.MEDIUM);
 		scoreHard = dataManager.loadScore(Difficult.HARD);
 
-		currentScore = scoreEasy;
-		
-		checkScore(Difficult.EASY);
+		checkScore(currentDifficult);
 		
 	}
 
@@ -110,6 +118,8 @@ public class TrainingFragment extends Fragment implements
 			noScoreText.setVisibility(View.VISIBLE);
 		} else {
 			noScoreText.setVisibility(View.GONE);
+
+			Collections.reverse(currentScore);
 			
 			listAdapter.clear();
 			listAdapter.addAll(currentScore);
@@ -122,7 +132,8 @@ public class TrainingFragment extends Fragment implements
 			long id) {
 
 		String[] dif = getResources().getStringArray(R.array.difficult_array);
-		checkScore(dif[position]);
+		currentDifficult = dif[position];
+		checkScore(currentDifficult);
 
 	}
 
