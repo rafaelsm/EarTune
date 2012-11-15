@@ -35,6 +35,7 @@ public class TrainingFragment extends Fragment implements
 	private List<Score> scoreMedium;
 	private List<Score> scoreHard;
 	private List<Score> currentScore;
+	private ScoreAdapter listAdapter;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,10 +48,6 @@ public class TrainingFragment extends Fragment implements
 
 		DataManager dataManager = new DataManager(getActivity());
 		scoreEasy = dataManager.loadScore(Difficult.EASY);
-		scoreMedium = dataManager.loadScore(Difficult.MEDIUM);
-		scoreHard = dataManager.loadScore(Difficult.HARD);
-
-		currentScore = scoreEasy;
 		
 		View view = inflater.inflate(R.layout.fragment_training, container,
 				false);
@@ -59,7 +56,7 @@ public class TrainingFragment extends Fragment implements
 		list = (ListView) view.findViewById(R.id.score_list);
 		noScoreText = (TextView) view.findViewById(R.id.textview_no_score);
 
-		ScoreAdapter listAdapter = new ScoreAdapter(getActivity(),
+		listAdapter = new ScoreAdapter(getActivity(),
 				R.layout.score_row, scoreEasy);
 		list.setAdapter(listAdapter);
 
@@ -81,9 +78,22 @@ public class TrainingFragment extends Fragment implements
 			}
 		});
 
-		checkScore(Difficult.EASY);
-
 		return view;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		DataManager dataManager = new DataManager(getActivity());
+		scoreEasy = dataManager.loadScore(Difficult.EASY);
+		scoreMedium = dataManager.loadScore(Difficult.MEDIUM);
+		scoreHard = dataManager.loadScore(Difficult.HARD);
+
+		currentScore = scoreEasy;
+		
+		checkScore(Difficult.EASY);
+		
 	}
 
 	private void checkScore(String difficult) {
@@ -100,6 +110,11 @@ public class TrainingFragment extends Fragment implements
 			noScoreText.setVisibility(View.VISIBLE);
 		} else {
 			noScoreText.setVisibility(View.GONE);
+			
+			listAdapter.clear();
+			listAdapter.addAll(currentScore);
+			listAdapter.notifyDataSetChanged();
+			
 		}
 	}
 

@@ -142,7 +142,7 @@ public class GameFragment extends Fragment {
 
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 
-		int range = new Random().nextInt(4);
+		int range = new Random().nextInt(3);
 		for (int i = 0; i < numberOfNotes; i++) {
 			numbers.add(i+range);
 		}

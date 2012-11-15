@@ -6,8 +6,6 @@ import android.app.Service;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,55 +20,57 @@ import br.com.rads.eartune.util.DataManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class GameActivity extends SherlockFragmentActivity implements OnClickListener {
+public class GameActivity extends SherlockFragmentActivity implements
+		OnClickListener {
 
 	private static final String TAG = "GAME";
-	
-	//Views
+
+	// Views
 	private ImageButton hearButton;
 	private Button chooseButton;
 	private TextView hitText;
 	private TextView errorText;
-	
-	//iv
+
+	// iv
 	private Score score;
 	private int hits;
 	private int errors;
 	private SoundPool soundPool;
 	private int soundID;
 	private GameFragment gameFrag;
-	private int levels = 10;
-	
+
 	private long startTime;
 	private long endTime;
-	
+
+	private String difficult;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		String difficult = getIntent().getExtras().getString("difficult");
+		difficult = getIntent().getExtras().getString("difficult");
 
 		TextView difficultText = (TextView) findViewById(R.id.difficult_text);
 		difficultText.setText(difficult);
-		
+
 		Log.d(TAG, "Dificuldade: " + difficult);
 
 		hearButton = (ImageButton) findViewById(R.id.hear_button);
-		chooseButton = (Button) findViewById(R.id.button_choose); 
+		chooseButton = (Button) findViewById(R.id.button_choose);
 		hitText = (TextView) findViewById(R.id.hit_text);
 		errorText = (TextView) findViewById(R.id.error_text);
-		gameFrag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.options);
+		gameFrag = (GameFragment) getSupportFragmentManager().findFragmentById(
+				R.id.options);
 
 		hearButton.setOnClickListener(this);
 		chooseButton.setOnClickListener(this);
-		
+
 		gameFrag.setDifficult(difficult);
-		
+
 		score = new Score(difficult);
 		startTime = new Date().getTime();
 	}
-
 
 	public void onClick(View view) {
 
@@ -90,28 +90,27 @@ public class GameActivity extends SherlockFragmentActivity implements OnClickLis
 		case R.id.button_choose:
 
 			RadioGroup rg = gameFrag.getRg();
-			
+
 			int radioButtonID = rg.getCheckedRadioButtonId();
 			View radioButton = rg.findViewById(radioButtonID);
-			
+
 			Log.d("RADIO", "id: " + radioButtonID);
-			
-			if (radioButtonID == 0) {
+
+			if (radioButtonID <= 0 ) {
 				return;
 			}
-			
-			if (radioButton.getTag() == "right"){
-				
+
+			if (radioButton.getTag() == "right") {
+
 				Toast.makeText(this, "Parabens champs, voce acertou",
 						Toast.LENGTH_LONG).show();
 				hits++;
 				score.setHits(hits);
 				hitText.setText("Acertos: " + hits);
-				
+
 				gameFrag.newQuestion();
-				
-			}
-			else{
+
+			} else {
 				Toast.makeText(this, "Errou!", Toast.LENGTH_LONG).show();
 				errors++;
 				score.setErrors(errors);
@@ -122,7 +121,7 @@ public class GameActivity extends SherlockFragmentActivity implements OnClickLis
 		}
 
 	}
-	
+
 	public SoundPool getSoundPool() {
 		return soundPool;
 	}
@@ -131,20 +130,22 @@ public class GameActivity extends SherlockFragmentActivity implements OnClickLis
 		this.soundPool = soundPool;
 	}
 
-	public void setSoundID(int soundID){
+	public void setSoundID(int soundID) {
 		this.soundID = soundID;
 	}
-	
+
 	@Override
 	public void finish() {
 		super.finish();
-		
+
 		endTime = new Date().getTime();
-		score.setPlaytime(new Date( endTime - startTime));
-		
-		DataManager manager = new DataManager(this);
-		manager.saveScore(score);
-		
+		score.setPlaytime(new Date(endTime - startTime));
+
+		if (score.getErrors() > 0 || score.getHits() > 0) {
+			DataManager manager = new DataManager(this);
+			manager.saveScore(score);
+		}
+
 	}
 
 }
