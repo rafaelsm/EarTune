@@ -3,77 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <TextView
         android:id="@+id/traning_info_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    
-     <TextView
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/difficult_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/difficult"
         android:layout_below="@id/traning_info_text"
         android:layout_margin="10dp"
-        android:textSize="16sp"
-        />
-    
-    <Spinner 
+        android:text="@string/difficult"
+        android:textSize="16sp" />
+
+    <Spinner
         android:id="@+id/difficult_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_toRightOf="@id/difficult_text"
-        android:layout_alignBaseline="@id/difficult_text"/>
-    
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/difficult_text" />
+
     <TextView
         android:id="@+id/score_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/score" 
         android:layout_below="@id/difficult_spinner"
-        android:layout_marginTop="40dp"
-        android:textSize="24sp"
-        />
-    
-    <LinearLayout 
+        android:layout_centerHorizontal="true"
+        android:text="@string/score"
+        android:textSize="24sp" />
+
+    <LinearLayout
         android:id="@+id/layout_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/score_text"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical">
-        
-        
-        <include 
-            layout="@layout/score_header"/>
-    
-    <fragment
-        android:name="br.com.rads.eartune.fragments.ScoreListFragment"
-        android:id="@+id/score_list"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:animateLayoutChanges="true" />
-    
+        android:layout_above="@+id/percent_text"
+        android:orientation="vertical" >
+
+        <include layout="@layout/score_header" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <fragment
+                android:id="@+id/score_list"
+                android:name="br.com.rads.eartune.fragments.ScoreListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:animateLayoutChanges="true" />
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Nenhum score para esta dificuldade"
+                android:background="@android:color/black"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+        </FrameLayout>
     </LinearLayout>
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/percent_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hit"
-        android:layout_below="@id/layout_score"
+       android:layout_above="@+id/traning_button"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"/>
-    
-    <Button 
+        android:layout_margin="20dp"
+        android:text="@string/hit" />
+
+    <Button
         android:id="@+id/traning_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_training"
+        android:layout_alignParentBottom="true"
         android:layout_margin="25dp"
-        android:layout_alignParentBottom="true"/>
-    
+        android:text="@string/start_training" />
+
 </RelativeLayout>

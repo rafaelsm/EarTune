@@ -1,5 +1,7 @@
 package br.com.rads.eartune;
 
+import java.util.Date;
+
 import android.app.Service;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -16,26 +18,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 import br.com.rads.eartune.fragments.GameFragment;
 import br.com.rads.eartune.model.Score;
+import br.com.rads.eartune.util.DataManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class GameActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	private static final String TAG = "GAME";
-
-	private Score score;
-	private int hits;
-	private int errors;
-
-	private SoundPool soundPool;
-	private int soundID;
-
+	
+	//Views
 	private ImageButton hearButton;
 	private Button chooseButton;
 	private TextView hitText;
 	private TextView errorText;
 	
+	//iv
+	private Score score;
+	private int hits;
+	private int errors;
+	private SoundPool soundPool;
+	private int soundID;
 	private GameFragment gameFrag;
+	private int levels = 10;
+	
+	private long startTime;
+	private long endTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,8 @@ public class GameActivity extends SherlockFragmentActivity implements OnClickLis
 		
 		gameFrag.setDifficult(difficult);
 		
-		score = new Score();
+		score = new Score(difficult);
+		startTime = new Date().getTime();
 	}
 
 
@@ -125,6 +133,18 @@ public class GameActivity extends SherlockFragmentActivity implements OnClickLis
 
 	public void setSoundID(int soundID){
 		this.soundID = soundID;
+	}
+	
+	@Override
+	public void finish() {
+		super.finish();
+		
+		endTime = new Date().getTime();
+		score.setPlaytime(new Date( endTime - startTime));
+		
+		DataManager manager = new DataManager(this);
+		manager.saveScore(score);
+		
 	}
 
 }

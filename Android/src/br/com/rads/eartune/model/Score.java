@@ -1,15 +1,19 @@
 package br.com.rads.eartune.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Score {
+public @SuppressWarnings("serial")
+class Score implements Serializable {
 	
 	private int hits;
 	private int errors;
 	private Date playtime;
+	private String difficult;
 	
-	public Score() {
+	public Score(String difficult) {
 		super();
+		this.setDifficult(difficult);
 	}
 
 	public int getHits() {
@@ -34,6 +38,14 @@ public class Score {
 
 	public void setPlaytime(Date playtime) {
 		this.playtime = playtime;
+	}
+
+	public String getDifficult() {
+		return difficult;
+	}
+
+	public void setDifficult(String difficult) {
+		this.difficult = difficult;
 	}
 	
 }

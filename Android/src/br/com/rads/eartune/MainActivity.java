@@ -19,8 +19,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	private ActionBar actionBar;
 	private ViewPager viewPager;
 	
-	
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,8 +50,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		createTab("Notas Musicais");
 		createTab("Treino");
-		
-		
 		
 	}
 
