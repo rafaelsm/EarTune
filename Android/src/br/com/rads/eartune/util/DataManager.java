@@ -79,6 +79,12 @@ public class DataManager {
 
 		return allScores;
 	}
+	
+	public boolean deleteScore(String scoreDifficult){
+		
+		return context.deleteFile(scoreDifficult + ".json");
+		
+	}
 
 	private String loadJSONFile(String difficult) {
 

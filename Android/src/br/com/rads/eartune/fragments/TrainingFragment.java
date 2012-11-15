@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.rads.eartune.GameActivity;
 import br.com.rads.eartune.R;
 import br.com.rads.eartune.constants.Difficult;
@@ -25,12 +26,13 @@ import br.com.rads.eartune.util.DataManager;
 import br.com.rads.eartune.util.ScoreAdapter;
 
 public class TrainingFragment extends Fragment implements
-		OnItemSelectedListener {
+		OnItemSelectedListener, OnClickListener {
 
 	private Button trainingButton;
 	private Spinner spinner;
 	private ListView list;
 	private TextView noScoreText;
+	private Button deleteScoreButton;
 
 	private List<Score> scoreEasy;
 	private List<Score> scoreMedium;
@@ -38,7 +40,6 @@ public class TrainingFragment extends Fragment implements
 	private List<Score> currentScore;
 	private String currentDifficult;
 	private ScoreAdapter listAdapter;
-	
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,25 +50,28 @@ public class TrainingFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		
-		
+		loadAllScores();
+
 		DataManager dataManager = new DataManager(getActivity());
 		currentScore = dataManager.loadScore(Difficult.EASY);
 		currentDifficult = Difficult.EASY;
-		
+
 		Collections.reverse(currentScore);
-		
-		
-		
+
 		View view = inflater.inflate(R.layout.fragment_training, container,
 				false);
 
 		spinner = (Spinner) view.findViewById(R.id.difficult_spinner);
 		list = (ListView) view.findViewById(R.id.score_list);
 		noScoreText = (TextView) view.findViewById(R.id.textview_no_score);
+		trainingButton = (Button) view.findViewById(R.id.traning_button);
+		deleteScoreButton = (Button) view.findViewById(R.id.delete_score);
+		
+		trainingButton.setOnClickListener(this);
+		deleteScoreButton.setOnClickListener(this);
 
-		listAdapter = new ScoreAdapter(getActivity(),
-				R.layout.score_row, currentScore);
+		listAdapter = new ScoreAdapter(getActivity(), R.layout.score_row,
+				currentScore);
 		list.setAdapter(listAdapter);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -76,36 +80,28 @@ public class TrainingFragment extends Fragment implements
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
 
-		trainingButton = (Button) view.findViewById(R.id.traning_button);
-		trainingButton.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), GameActivity.class);
-				intent.putExtra("difficult", (String) spinner.getSelectedItem());
-
-				startActivity(intent);
-
-			}
-		});
 
 		return view;
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
+		loadAllScores();
+		checkScore(currentDifficult);
+
+	}
+
+	private void loadAllScores() {
 		DataManager dataManager = new DataManager(getActivity());
 		scoreEasy = dataManager.loadScore(Difficult.EASY);
 		scoreMedium = dataManager.loadScore(Difficult.MEDIUM);
 		scoreHard = dataManager.loadScore(Difficult.HARD);
-
-		checkScore(currentDifficult);
-		
 	}
 
 	private void checkScore(String difficult) {
-		
+
 		if (difficult.equalsIgnoreCase(Difficult.EASY)) {
 			currentScore = scoreEasy;
 		} else if (difficult.equalsIgnoreCase(Difficult.MEDIUM)) {
@@ -113,18 +109,20 @@ public class TrainingFragment extends Fragment implements
 		} else {
 			currentScore = scoreHard;
 		}
-		
+
 		if (currentScore.size() < 1) {
 			noScoreText.setVisibility(View.VISIBLE);
+			deleteScoreButton.setEnabled(false);
 		} else {
 			noScoreText.setVisibility(View.GONE);
+			deleteScoreButton.setEnabled(true);
 
 			Collections.reverse(currentScore);
-			
+
 			listAdapter.clear();
 			listAdapter.addAll(currentScore);
 			listAdapter.notifyDataSetChanged();
-			
+
 		}
 	}
 
@@ -138,5 +136,31 @@ public class TrainingFragment extends Fragment implements
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.traning_button:
+			Intent intent = new Intent(getActivity(), GameActivity.class);
+			intent.putExtra("difficult", (String) spinner.getSelectedItem());
+
+			startActivity(intent);
+			break;
+
+		case R.id.delete_score:
+			DataManager manager = new DataManager(getActivity());
+			
+			if (manager.deleteScore(currentDifficult)) {
+				checkScore(currentDifficult);
+				Toast.makeText(getActivity(), "Devia ter deletado",
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getActivity(), "Deu merda", Toast.LENGTH_LONG)
+						.show();
+			}
+			break;
+		}
+
 	}
 }
