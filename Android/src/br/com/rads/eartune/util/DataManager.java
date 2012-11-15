@@ -46,33 +46,37 @@ public class DataManager {
 		}
 
 	}
-	
-	public ArrayList<Score> loadScore(String scoreDifficult){
-		
+
+	public ArrayList<Score> loadScore(String scoreDifficult) {
+
 		ArrayList<Score> allScores = new ArrayList<Score>();
-		
+
 		try {
-			
-			JSONObject rootJSON = new JSONObject(loadJSONFile(scoreDifficult));
-			JSONArray scoresArray = rootJSON.getJSONArray(scoreDifficult);
-			
-			for (int i = 0; i < scoresArray.length(); i++) {
+
+			String jsonFile = loadJSONFile(scoreDifficult);
+
+			if (jsonFile != null) {
 				
-				JSONObject json = scoresArray.getJSONObject(i);
-				
-				Score s = new Score(scoreDifficult);
-				s.setHits(json.getInt("hit"));
-				s.setErrors(json.getInt("error"));
-				s.setPlaytime( new Date(json.getLong("time")));
-				
-				allScores.add(s);
+				JSONObject rootJSON = new JSONObject(jsonFile);
+				JSONArray scoresArray = rootJSON.getJSONArray(scoreDifficult);
+
+				for (int i = 0; i < scoresArray.length(); i++) {
+
+					JSONObject json = scoresArray.getJSONObject(i);
+
+					Score s = new Score(scoreDifficult);
+					s.setHits(json.getInt("hit"));
+					s.setErrors(json.getInt("error"));
+					s.setPlaytime(new Date(json.getLong("time")));
+
+					allScores.add(s);
+				}
 			}
-			
-			
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+
 		return allScores;
 	}
 
@@ -80,13 +84,12 @@ public class DataManager {
 
 		StringBuilder sb = null;
 		try {
-			FileInputStream in = context.openFileInput(difficult
-					+ ".json");
-			
+			FileInputStream in = context.openFileInput(difficult + ".json");
+
 			sb = new StringBuilder();
 
 			byte[] buffer = new byte[1024];
-			
+
 			while ((in.read(buffer)) != -1) {
 				sb.append(new String(buffer));
 			}

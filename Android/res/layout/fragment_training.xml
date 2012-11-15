@@ -20,9 +20,10 @@
 
     <Spinner
         android:id="@+id/difficult_spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/difficult_text" />
+        android:layout_toRightOf="@id/difficult_text"
+         />
 
     <TextView
         android:id="@+id/score_text"
@@ -48,14 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <fragment
+            <ListView
                 android:id="@+id/score_list"
-                android:name="br.com.rads.eartune.fragments.ScoreListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:animateLayoutChanges="true" />
             
             <TextView 
+                android:id="@+id/textview_no_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Nenhum score para esta dificuldade"
