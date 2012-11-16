@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import br.com.rads.eartune.GameActivity;
 import br.com.rads.eartune.R;
+import br.com.rads.eartune.constants.Difficult;
 
 public class GameFragment extends Fragment {
 
@@ -34,7 +35,7 @@ public class GameFragment extends Fragment {
 
 	private int soundID;
 
-	private String difficult = "Easy";
+	private String difficult;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -49,8 +50,8 @@ public class GameFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		Log.d(TAG, "onCreateView - begin");
+		
 		View view = inflater.inflate(R.layout.fragment_game, container, true);
-
 		rg = (RadioGroup) view.findViewById(R.id.options);
 
 		return view;
@@ -142,7 +143,14 @@ public class GameFragment extends Fragment {
 
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 
-		int range = new Random().nextInt(3);
+		int range = 0;
+		
+		if (difficult.equals(Difficult.EASY)) {
+			range  = new Random().nextInt(4);
+		}else if (difficult.equals(Difficult.MEDIUM)) {
+			 range = new Random().nextInt(2);
+		}
+		
 		for (int i = 0; i < numberOfNotes; i++) {
 			numbers.add(i+range);
 		}

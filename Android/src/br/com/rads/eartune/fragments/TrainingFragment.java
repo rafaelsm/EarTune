@@ -152,6 +152,7 @@ public class TrainingFragment extends Fragment implements
 			DataManager manager = new DataManager(getActivity());
 			
 			if (manager.deleteScore(currentDifficult)) {
+				loadAllScores();
 				checkScore(currentDifficult);
 				Toast.makeText(getActivity(), "Devia ter deletado",
 						Toast.LENGTH_LONG).show();

@@ -52,7 +52,7 @@ public class GameActivity extends SherlockFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		difficult = getIntent().getExtras().getString("difficult");
+		difficult = getIntent().getExtras().getString(Difficult.DIFFICULT);
 
 		TextView difficultText = (TextView) findViewById(R.id.difficult_text);
 		difficultText.setText(difficult);
